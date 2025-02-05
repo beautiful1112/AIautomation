@@ -18,4 +18,4 @@ async def get_responses(api_key, messages):
 api_key = "use your API-key"
 message = fp.ProtocolMessage(role="user", content="Hi,hello~")
 
-asyncio.run(get_responses(api_key, [message]))a
+asyncio.run(get_responses(api_key, [message]))

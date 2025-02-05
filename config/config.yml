@@ -1,0 +1,18 @@
+rsyslog_server:
+  host: "172.18.10.150"  # rsyslog 服务器的 IP
+  log_file: "/var/log/cisco/messages"  # rsyslog 服务器上的日志文件路径
+  ssh:
+    username: "master"
+    password: "admin@123"
+    port: 22
+
+poe:
+  api_key: "your_poe_api_key"
+  bot_name: "GPT-3.5-Turbo"
+
+cisco_device:
+  host: "1172"  # eve-ng 中的 Cisco 设备 IP
+  username: "admin"
+  password: "cisco"
+  enable_secret: "cisco"
+  device_type: "cisco_ios"
