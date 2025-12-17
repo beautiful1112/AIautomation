@@ -1,0 +1,27 @@
+fastapi~=0.115.0
+uvicorn[standard]~=0.30.0
+
+pydantic~=2.9.0
+sqlalchemy~=2.0.0
+aiosqlite~=0.20.0
+
+langgraph~=0.2.0
+langchain~=0.3.0
+
+requests~=2.32.0
+
+kubernetes~=34.1.0
+
+netmiko~=4.4.0
+textfsm~=1.1.0
+ntc-templates~=5.0.0
+
+openai~=1.54.0
+
+# Optional but useful for development
+python-dotenv~=1.0.1
+
+langchain-community
+
+langchain-ollama
+
