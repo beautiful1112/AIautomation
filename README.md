@@ -1,6 +1,4 @@
 
-
-```markdown
 # 🛰️ AIOps Multi-Agent Monitoring Demo (Prometheus + K8s + Network)
 
 This project is a **minimal, end-to-end AIOps demo** that:
@@ -1032,5 +1030,4 @@ This project demonstrates:
   - **Agent logic** (monitoring, k8s, network, review)
   - **UI** (React dashboard)
 
-The design is intentionally minimal but extensible, so you can evolve it into a more complex production setup over time.
-```
+
