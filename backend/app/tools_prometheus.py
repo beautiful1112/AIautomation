@@ -12,7 +12,7 @@ from typing import Any, Dict, List
 import requests
 
 # Your Prometheus endpoint
-PROMETHEUS_URL = "http://192.168.229.143:9090"
+PROMETHEUS_URL = "http://192.168.229.130:9090"
 
 
 def get_prometheus_alerts() -> List[Dict[str, Any]]:

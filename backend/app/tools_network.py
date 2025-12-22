@@ -17,35 +17,35 @@ NETWORK_DEVICES: Dict[str, Dict[str, Any]] = {
         "device_type": "cisco_ios",
         "host": "10.0.0.11",
         "username": "admin",
-        "password": "admin123",
+        "password": "admin@123",
         "port": 22,
     },
     "lab-router-2": {
         "device_type": "cisco_ios",
         "host": "10.0.0.12",
         "username": "admin",
-        "password": "admin123",
+        "password": "admin@123",
         "port": 22,
     },
     "lab-switch-1": {
         "device_type": "cisco_ios",
         "host": "10.0.0.21",
         "username": "admin",
-        "password": "admin123",
+        "password": "admin@123",
         "port": 22,
     },
     "lab-switch-2": {
         "device_type": "cisco_ios",
         "host": "10.0.0.22",
         "username": "admin",
-        "password": "admin123",
+        "password": "admin@123",
         "port": 22,
     },
     "lab-switch-3": {
         "device_type": "cisco_ios",
         "host": "10.0.0.23",
         "username": "admin",
-        "password": "admin123",
+        "password": "admin@123",
         "port": 22,
     },
 }
@@ -55,9 +55,20 @@ def get_device_params(device_id: str) -> Dict[str, Any]:
     """
     Return Netmiko connection parameters for a given device id.
     """
-    if device_id not in NETWORK_DEVICES:
-        raise KeyError(f"Unknown device_id: {device_id}")
-    return NETWORK_DEVICES[device_id]
+    # First try direct lookup by logical device id (e.g. "lab-router-1").
+    if device_id in NETWORK_DEVICES:
+        return NETWORK_DEVICES[device_id]
+
+    # If that fails, try to match by host IP address.
+    # This allows Prometheus alerts that use "instance=10.0.0.12"
+    # to still resolve to a device entry whose "host" is 10.0.0.12.
+    for logical_id, params in NETWORK_DEVICES.items():
+        host = params.get("host")
+        if host == device_id:
+            return params
+
+    # If we still cannot find it, raise a clear error.
+    raise KeyError(f"Unknown device_id: {device_id}")
 
 
 @contextmanager
@@ -126,7 +137,10 @@ def check_interface_status(device_id: str, interface_id: str) -> Dict[str, Any]:
             result["raw"]["show_interface"] = output
             result["reachable"] = True
 
-            first_line = output.splitlines()[0] if output else ""
+            # Ensure output is a string (send_command without use_textfsm returns str)
+            output_str = str(output) if not isinstance(output, str) else output
+
+            first_line = output_str.splitlines()[0] if output_str else ""
             line_lower = first_line.lower()
 
             if "is administratively down" in line_lower:
@@ -143,7 +157,7 @@ def check_interface_status(device_id: str, interface_id: str) -> Dict[str, Any]:
             else:
                 result["oper_status"] = "unknown"
 
-            for line in output.splitlines():
+            for line in output_str.splitlines():
                 if "Description:" in line:
                     result["description"] = line.split("Description:", 1)[1].strip()
                     break
