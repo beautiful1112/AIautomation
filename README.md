@@ -1,4 +1,4 @@
-Here’s a complete `README.md` you can drop into your repo. It combines high‑level architecture, low‑level design, and how everything fits together.
+
 
 ```markdown
 # 🛰️ AIOps Multi-Agent Monitoring Demo (Prometheus + K8s + Network)
